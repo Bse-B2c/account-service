@@ -16,7 +16,8 @@
     "skipLibCheck": true, /* Skip type checking all .d.ts files. */
     "paths": {
       "@src/*": ["./*"],
-      "@middleware/*": ["./middleware/*"]
+      "@middleware/*": ["./middleware/*"],
+      "@user/*": ["./user/*"]
     }
   },
   "include": ["./**/*.ts"]

@@ -24,6 +24,7 @@ export class Server {
 	}
 }
 
+// TODO: Add database Instance
 const server = new Server(app, { connect: async () => {} });
 
 server.start();
