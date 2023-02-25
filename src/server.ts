@@ -1,6 +1,8 @@
 import { app } from '@src/app';
 import dotenv from 'dotenv';
 import { Express } from 'express';
+import { PostgresDB } from '@src/database';
+import 'reflect-metadata';
 
 dotenv.config();
 
@@ -24,7 +26,6 @@ export class Server {
 	}
 }
 
-// TODO: Add database Instance
-const server = new Server(app, { connect: async () => {} });
+const server = new Server(app, new PostgresDB());
 
 server.start();
