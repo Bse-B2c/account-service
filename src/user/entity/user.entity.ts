@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Address } from '@address/entity/address.entity';
 
-// TODO: Add address property
 // TODO: Add role property
 @Entity()
 export class User {
@@ -27,4 +27,10 @@ export class User {
 
 	@Column({ default: new Date() })
 	createdAt: Date;
+
+	@OneToMany(() => Address, address => address.user, {
+		onDelete: 'CASCADE',
+		cascade: ['remove'],
+	})
+	addresses: Array<Address>;
 }
