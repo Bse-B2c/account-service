@@ -1,7 +1,7 @@
 import { app } from '@src/app';
 import dotenv from 'dotenv';
 import { Express } from 'express';
-import { PostgresDB } from '@src/database';
+import PostgresDB from '@src/database';
 import 'reflect-metadata';
 
 dotenv.config();
@@ -26,6 +26,6 @@ export class Server {
 	}
 }
 
-const server = new Server(app, new PostgresDB());
+const server = new Server(app, PostgresDB);
 
 server.start();
