@@ -52,4 +52,12 @@ export class UserService implements Service {
 
 		return user;
 	};
+
+	delete = async (id: number) => {
+		const user = await this.findOne(id);
+
+		await this.repository.delete(id);
+
+		return user;
+	};
 }

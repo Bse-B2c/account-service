@@ -15,5 +15,6 @@ const validateParams = validate('params');
 
 router.post('/', validateBody(UserDto), userController.create);
 router.get('/:id', validateParams(ParamsDTO), userController.findOne);
+router.delete('/:id', validateParams(ParamsDTO), userController.delete);
 
 export default router;
