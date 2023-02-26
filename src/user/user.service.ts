@@ -38,4 +38,18 @@ export class UserService implements Service {
 
 		return this.repository.save(newUser);
 	};
+
+	findOne = async (id: number): Promise<User> => {
+		const user = await this.repository.findOne({
+			where: { id },
+		});
+
+		if (!user)
+			throw new HttpException({
+				statusCode: HttpStatusCode.NOT_FOUND,
+				message: `User ${id} not found`,
+			});
+
+		return user;
+	};
 }

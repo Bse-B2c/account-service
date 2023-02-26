@@ -3,4 +3,5 @@ import { User } from '@user/entity/user.entity';
 
 export interface UserService {
 	create(user: UserDto): Promise<User>;
+	findOne(id: number): Promise<User>;
 }
