@@ -41,6 +41,7 @@ export class UserService implements Service {
 
 	findOne = async (id: number): Promise<User> => {
 		const user = await this.repository.findOne({
+			relations: { addresses: true },
 			where: { id },
 		});
 
