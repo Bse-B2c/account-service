@@ -2,6 +2,7 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
     "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     "module": "commonjs",                                /* Specify what module code is generated. */
     "baseUrl": "src",
@@ -17,7 +18,8 @@
     "paths": {
       "@src/*": ["./*"],
       "@middleware/*": ["./middleware/*"],
-      "@user/*": ["./user/*"]
+      "@common/*": ["./common/*"],
+      "@user/*": ["./user/*"],
     }
   },
   "include": ["./**/*.ts"]
