@@ -62,6 +62,7 @@ export class AddressService implements Service {
 			city,
 			country,
 			region,
+			zipCode,
 			limit = 10,
 			page = 0,
 			orderBy = 'streetName',
@@ -82,6 +83,8 @@ export class AddressService implements Service {
 		if (country) where = { ...where, country: Equal(country) };
 
 		if (region) where = { ...where, region: Equal(region) };
+
+		if (zipCode) where = { ...where, zipCode: Equal(zipCode) };
 
 		return this.repository.find({
 			relations: { user: true },
