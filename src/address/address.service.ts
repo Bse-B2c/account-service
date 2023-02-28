@@ -60,6 +60,7 @@ export class AddressService implements Service {
 			text,
 			active,
 			city,
+			country,
 			limit = 10,
 			page = 0,
 			orderBy = 'streetName',
@@ -76,6 +77,8 @@ export class AddressService implements Service {
 		if (active !== undefined) where = { ...where, active };
 
 		if (city) where = { ...where, city: Equal(city) };
+
+		if (country) where = { ...where, country: Equal(country) };
 
 		return this.repository.find({
 			relations: { user: true },
