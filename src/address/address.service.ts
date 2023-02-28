@@ -7,6 +7,7 @@ import {
 	FindOptionsOrderValue,
 	In,
 	Like,
+	Equal,
 } from 'typeorm';
 import { UserService } from '@user/interfaces/userService.interface';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
@@ -58,6 +59,7 @@ export class AddressService implements Service {
 			userIds,
 			text,
 			active,
+			city,
 			limit = 10,
 			page = 0,
 			orderBy = 'streetName',
@@ -72,6 +74,8 @@ export class AddressService implements Service {
 		if (text) where = { ...where, streetName: Like(`%${text}%`) };
 
 		if (active !== undefined) where = { ...where, active };
+
+		if (city) where = { ...where, city: Equal(city) };
 
 		return this.repository.find({
 			relations: { user: true },
