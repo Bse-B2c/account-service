@@ -53,6 +53,14 @@ export class AddressService implements Service {
 		return address;
 	};
 
+	delete = async (id: number): Promise<Address> => {
+		const address = await this.findOne(id);
+
+		await this.repository.delete(id);
+
+		return address;
+	};
+
 	find = async (search: SearchDto): Promise<Array<Address>> => {
 		const {
 			ids,
