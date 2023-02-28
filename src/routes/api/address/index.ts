@@ -17,6 +17,7 @@ const validateQuery = validate('query');
 
 router.post('/', validateBody(AddressDto), addressController.create);
 router.get('/:id', validateParams(ParamsDto), addressController.findOne);
+router.delete('/:id', validateParams(ParamsDto), addressController.delete);
 router.get('/', validateQuery(SearchDto), addressController.find);
 
 export default router;
