@@ -2,6 +2,7 @@ import { AddressService } from '@address/interfaces/addressService.interface';
 import { NextFunction, Request, Response } from 'express';
 import { HttpStatusCode } from '@bse-b2c/common';
 import { AddressDto } from '@address/dtos/address.dto';
+import { SearchDto } from '@address/dtos/search.dto';
 
 export class AddressController {
 	constructor(private service: AddressService) {}
@@ -47,6 +48,29 @@ export class AddressController {
 			const { id } = req.params;
 
 			const response = await this.service.findOne(+id);
+
+			return res.status(HttpStatusCode.OK).send({
+				statusCode: HttpStatusCode.OK,
+				error: null,
+				data: response,
+			});
+		} catch (e) {
+			next(e);
+		}
+	};
+
+	find = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const { orderBy, sortOrder, limit, page, ...search } =
+				req.query as unknown as SearchDto;
+
+			const response = await this.service.find({
+				...search,
+				orderBy: orderBy ?? 'streetName',
+				sortOrder: sortOrder ?? 'ASC',
+				limit: limit || 10,
+				page: page || 0,
+			});
 
 			return res.status(HttpStatusCode.OK).send({
 				statusCode: HttpStatusCode.OK,
