@@ -12,6 +12,7 @@ import {
 import { UserService } from '@user/interfaces/userService.interface';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { SearchDto } from '@address/dtos/search.dto';
+import { UpdateAddressDto } from '@address/dtos/updateAddress.dto';
 
 export class AddressService implements Service {
 	constructor(
@@ -41,8 +42,22 @@ export class AddressService implements Service {
 		return this.repository.save(newAddress);
 	};
 
+	update = async (
+		id: number,
+		updatedAddress: UpdateAddressDto
+	): Promise<Address> => {
+		const address = await this.findOne(id);
+
+		Object.assign(address, updatedAddress);
+
+		return this.repository.save(address);
+	};
+
 	findOne = async (id: number): Promise<Address> => {
-		const address = await this.repository.findOne({ where: { id } });
+		const address = await this.repository.findOne({
+			relations: { user: true },
+			where: { id },
+		});
 
 		if (!address)
 			throw new HttpException({
