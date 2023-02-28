@@ -57,6 +57,7 @@ export class AddressService implements Service {
 			ids,
 			userIds,
 			text,
+			active,
 			limit = 10,
 			page = 0,
 			orderBy = 'streetName',
@@ -69,6 +70,8 @@ export class AddressService implements Service {
 		if (userIds) where = { ...where, user: In(userIds) };
 
 		if (text) where = { ...where, streetName: Like(`%${text}%`) };
+
+		if (active !== undefined) where = { ...where, active };
 
 		return this.repository.find({
 			relations: { user: true },
