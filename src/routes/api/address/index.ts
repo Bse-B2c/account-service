@@ -7,10 +7,13 @@ import { addressController } from '@src/address';
 
 // dto
 import { AddressDto } from '@address/dtos/address.dto';
+import { ParamsDto } from '@common/dtos/params.dto';
 
 // Validate
 const validateBody = validate('body');
+const validateParams = validate('params');
 
 router.post('/', validateBody(AddressDto), addressController.create);
+router.get('/:id', validateParams(ParamsDto), addressController.findOne);
 
 export default router;

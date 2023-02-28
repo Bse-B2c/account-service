@@ -32,4 +32,16 @@ export class AddressService implements Service {
 
 		return this.repository.save(newAddress);
 	};
+
+	findOne = async (id: number): Promise<Address> => {
+		const address = await this.repository.findOne({ where: { id } });
+
+		if (!address)
+			throw new HttpException({
+				statusCode: HttpStatusCode.NOT_FOUND,
+				message: `Address ${id} not found`,
+			});
+
+		return address;
+	};
 }
