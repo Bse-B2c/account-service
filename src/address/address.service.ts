@@ -54,6 +54,7 @@ export class AddressService implements Service {
 	find = async (search: SearchDto): Promise<Array<Address>> => {
 		const {
 			ids,
+			userIds,
 			limit = 10,
 			page = 0,
 			orderBy = 'streetName',
@@ -62,6 +63,8 @@ export class AddressService implements Service {
 		let where: FindOptionsWhere<Address> = {};
 
 		if (ids) where = { ...where, id: In(ids) };
+
+		if (userIds) where = { ...where, user: In(userIds) };
 
 		return this.repository.find({
 			relations: { user: true },
