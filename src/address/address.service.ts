@@ -1,9 +1,15 @@
 import { AddressService as Service } from '@address/interfaces/addressService.interface';
 import { Address } from '@address/entity/address.entity';
 import { AddressDto } from '@address/dtos/address.dto';
-import { Repository } from 'typeorm';
+import {
+	Repository,
+	FindOptionsWhere,
+	FindOptionsOrderValue,
+	In,
+} from 'typeorm';
 import { UserService } from '@user/interfaces/userService.interface';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
+import { SearchDto } from '@address/dtos/search.dto';
 
 export class AddressService implements Service {
 	constructor(
@@ -43,5 +49,30 @@ export class AddressService implements Service {
 			});
 
 		return address;
+	};
+
+	find = async (search: SearchDto): Promise<Array<Address>> => {
+		const {
+			ids,
+			limit = 10,
+			page = 0,
+			orderBy = 'streetName',
+			sortOrder = 'ASC',
+		} = search;
+		let where: FindOptionsWhere<Address> = {};
+
+		if (ids) where = { ...where, id: In(ids) };
+
+		return this.repository.find({
+			relations: { user: true },
+			loadRelationIds: true,
+			where,
+			order: {
+				[orderBy]: sortOrder as FindOptionsOrderValue,
+				streetName: sortOrder as FindOptionsOrderValue,
+			},
+			take: limit,
+			skip: page * limit,
+		});
 	};
 }
