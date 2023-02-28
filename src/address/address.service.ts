@@ -61,6 +61,7 @@ export class AddressService implements Service {
 			active,
 			city,
 			country,
+			region,
 			limit = 10,
 			page = 0,
 			orderBy = 'streetName',
@@ -79,6 +80,8 @@ export class AddressService implements Service {
 		if (city) where = { ...where, city: Equal(city) };
 
 		if (country) where = { ...where, country: Equal(country) };
+
+		if (region) where = { ...where, region: Equal(region) };
 
 		return this.repository.find({
 			relations: { user: true },
