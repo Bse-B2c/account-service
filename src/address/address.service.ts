@@ -42,6 +42,22 @@ export class AddressService implements Service {
 		return this.repository.save(newAddress);
 	};
 
+	setActiveAddress = async (id: number): Promise<Address> => {
+		const address = await this.findOne(id);
+		const activeAddress = await this.repository.findOne({
+			where: { active: true, user: Equal(address.user.id) },
+		});
+
+		if (activeAddress) {
+			Object.assign(activeAddress, { active: false });
+			await this.repository.save(activeAddress);
+		}
+
+		Object.assign(address, { active: true });
+
+		return this.repository.save(address);
+	};
+
 	update = async (
 		id: number,
 		updatedAddress: UpdateAddressDto
