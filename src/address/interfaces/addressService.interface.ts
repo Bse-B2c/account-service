@@ -9,4 +9,5 @@ export interface AddressService {
 	find(search: SearchDto): Promise<Array<Address>>;
 	delete(id: number): Promise<Address>;
 	update(id: number, address: UpdateAddressDto): Promise<Address>;
+	setActiveAddress(id: number): Promise<Address>;
 }
