@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Address } from '@address/entity/address.entity';
+import { Role } from '@common/enums/role.enum';
 
-// TODO: Add role property
 @Entity()
 export class User {
 	@PrimaryGeneratedColumn()
@@ -33,4 +33,7 @@ export class User {
 		cascade: ['remove'],
 	})
 	addresses: Array<Address>;
+
+	@Column({ default: Role.CONSUMER })
+	role: number;
 }
