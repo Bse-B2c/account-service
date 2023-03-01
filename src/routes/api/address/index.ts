@@ -20,6 +20,11 @@ router.post('/', validateBody(AddressDto), addressController.create);
 router.get('/:id', validateParams(ParamsDto), addressController.findOne);
 router.delete('/:id', validateParams(ParamsDto), addressController.delete);
 router.get('/', validateQuery(SearchDto), addressController.find);
+router.patch(
+	'/:id/active',
+	validateParams(ParamsDto),
+	addressController.setActiveAddress
+);
 router.put(
 	'/:id',
 	validateParams(ParamsDto),
