@@ -2,7 +2,7 @@ import { UserService as Service } from '@user/interfaces/userService.interface';
 import { PasswordUtils } from '@common/utils/password.utils';
 import { UserDto } from '@user/dtos/user.dto';
 import { User } from '@user/entity/user.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, In, Repository } from 'typeorm';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { SearchDto } from '@user/dtos/search.dto';
 
@@ -65,15 +65,20 @@ export class UserService implements Service {
 
 	find = async (search: SearchDto): Promise<Array<User>> => {
 		const {
+			ids,
 			sortOrder = 'ASC',
 			orderBy = 'name',
 			page = 0,
 			limit = 10,
 		} = search;
+		let where: FindOptionsWhere<User> = {};
+
+		if (ids) where = { ...where, id: In(ids) };
 
 		return this.repository.find({
 			relations: { addresses: true },
 			loadRelationIds: true,
+			where,
 			order: { [orderBy]: sortOrder },
 			take: limit,
 			skip: limit * page,
