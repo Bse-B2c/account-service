@@ -69,6 +69,7 @@ export class UserService implements Service {
 			name,
 			email,
 			cpf,
+			phone,
 			sortOrder = 'ASC',
 			orderBy = 'name',
 			page = 0,
@@ -83,6 +84,8 @@ export class UserService implements Service {
 		if (email) where = { ...where, email: Equal(email) };
 
 		if (cpf) where = { ...where, cpf: Equal(cpf) };
+
+		if (phone) where = { ...where, phone: Equal(phone) };
 
 		return this.repository.find({
 			relations: { addresses: true },
