@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { HttpStatusCode } from '@bse-b2c/common';
 import { UserService } from '@user/interfaces/userService.interface';
 import { UserDto } from '@user/dtos/user.dto';
+import { SearchDto } from '@user/dtos/search.dto';
 
 export class UserController {
 	constructor(private service: UserService) {}
@@ -64,10 +65,21 @@ export class UserController {
 
 	find = async (req: Request, res: Response, next: NextFunction) => {
 		try {
+			const { orderBy, sortOrder, limit, page, ...search } =
+				req.query as unknown as SearchDto;
+
+			const response = await this.service.find({
+				...search,
+				orderBy: orderBy ?? 'name',
+				sortOrder: sortOrder ?? 'ASC',
+				limit: limit || 10,
+				page: page || 0,
+			});
+
 			return res.status(HttpStatusCode.OK).send({
 				statusCode: HttpStatusCode.OK,
 				error: null,
-				data: [],
+				data: response,
 			});
 		} catch (e) {
 			next(e);

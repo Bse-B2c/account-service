@@ -4,6 +4,7 @@ import { UserDto } from '@user/dtos/user.dto';
 import { User } from '@user/entity/user.entity';
 import { Repository } from 'typeorm';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
+import { SearchDto } from '@user/dtos/search.dto';
 
 export class UserService implements Service {
 	constructor(
@@ -60,5 +61,22 @@ export class UserService implements Service {
 		await this.repository.delete(id);
 
 		return user;
+	};
+
+	find = async (search: SearchDto): Promise<Array<User>> => {
+		const {
+			sortOrder = 'ASC',
+			orderBy = 'name',
+			page = 0,
+			limit = 10,
+		} = search;
+
+		return this.repository.find({
+			relations: { addresses: true },
+			loadRelationIds: true,
+			order: { [orderBy]: sortOrder },
+			take: limit,
+			skip: limit * page,
+		});
 	};
 }
