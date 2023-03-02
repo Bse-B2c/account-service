@@ -6,7 +6,7 @@ import {
 	FindOptionsWhere,
 	FindOptionsOrderValue,
 	In,
-	Like,
+	ILike,
 	Equal,
 } from 'typeorm';
 import { UserService } from '@user/interfaces/userService.interface';
@@ -113,7 +113,7 @@ export class AddressService implements Service {
 
 		if (userIds) where = { ...where, user: In(userIds) };
 
-		if (text) where = { ...where, streetName: Like(`%${text}%`) };
+		if (text) where = { ...where, streetName: ILike(`%${text}%`) };
 
 		if (active !== undefined) where = { ...where, active };
 
