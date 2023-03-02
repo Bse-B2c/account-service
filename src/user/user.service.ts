@@ -2,7 +2,16 @@ import { UserService as Service } from '@user/interfaces/userService.interface';
 import { PasswordUtils } from '@common/utils/password.utils';
 import { UserDto } from '@user/dtos/user.dto';
 import { User } from '@user/entity/user.entity';
-import { Equal, FindOptionsWhere, In, ILike, Repository } from 'typeorm';
+import {
+	Equal,
+	FindOptionsWhere,
+	In,
+	ILike,
+	Repository,
+	Between,
+	MoreThanOrEqual,
+	LessThanOrEqual,
+} from 'typeorm';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { SearchDto } from '@user/dtos/search.dto';
 
@@ -70,6 +79,8 @@ export class UserService implements Service {
 			email,
 			cpf,
 			phone,
+			startDate,
+			endDate,
 			sortOrder = 'ASC',
 			orderBy = 'name',
 			page = 0,
@@ -86,6 +97,23 @@ export class UserService implements Service {
 		if (cpf) where = { ...where, cpf: Equal(cpf) };
 
 		if (phone) where = { ...where, phone: Equal(phone) };
+
+		if (startDate && endDate) {
+			where = {
+				...where,
+				createdAt: Between(new Date(startDate), new Date(endDate)),
+			};
+		} else if (startDate) {
+			where = {
+				...where,
+				createdAt: MoreThanOrEqual(new Date(startDate)),
+			};
+		} else if (endDate) {
+			where = {
+				...where,
+				createdAt: LessThanOrEqual(new Date(endDate)),
+			};
+		}
 
 		return this.repository.find({
 			relations: { addresses: true },
