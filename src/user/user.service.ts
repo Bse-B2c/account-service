@@ -68,6 +68,7 @@ export class UserService implements Service {
 			ids,
 			name,
 			email,
+			cpf,
 			sortOrder = 'ASC',
 			orderBy = 'name',
 			page = 0,
@@ -80,6 +81,8 @@ export class UserService implements Service {
 		if (name) where = { ...where, name: ILike(`%${name}%`) };
 
 		if (email) where = { ...where, email: Equal(email) };
+
+		if (cpf) where = { ...where, cpf: Equal(cpf) };
 
 		return this.repository.find({
 			relations: { addresses: true },
