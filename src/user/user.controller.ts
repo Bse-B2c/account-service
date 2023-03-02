@@ -61,4 +61,16 @@ export class UserController {
 			next(e);
 		}
 	};
+
+	find = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			return res.status(HttpStatusCode.OK).send({
+				statusCode: HttpStatusCode.OK,
+				error: null,
+				data: [],
+			});
+		} catch (e) {
+			next(e);
+		}
+	};
 }
