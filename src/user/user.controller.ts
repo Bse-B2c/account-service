@@ -63,6 +63,32 @@ export class UserController {
 		}
 	};
 
+	update = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const {
+				body: { name, email, password, phone, cpf, brithDate },
+				params: { id },
+			} = req;
+
+			const response = await this.service.update(+id, {
+				name,
+				email,
+				password,
+				phone,
+				cpf,
+				brithDate,
+			});
+
+			return res.status(HttpStatusCode.OK).send({
+				statusCode: HttpStatusCode.OK,
+				error: null,
+				data: response,
+			});
+		} catch (e) {
+			next(e);
+		}
+	};
+
 	find = async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const { orderBy, sortOrder, limit, page, ...search } =

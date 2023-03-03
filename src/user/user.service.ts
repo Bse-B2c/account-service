@@ -11,9 +11,23 @@ import {
 	Between,
 	MoreThanOrEqual,
 	LessThanOrEqual,
+	FindOptionsSelect,
 } from 'typeorm';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { SearchDto } from '@user/dtos/search.dto';
+
+const selectUser = {
+	id: true,
+	password: true,
+	email: true,
+	name: true,
+	cpf: true,
+	phone: true,
+	addresses: true,
+	createdAt: true,
+	brithDate: true,
+	role: true,
+};
 
 export class UserService implements Service {
 	constructor(
@@ -49,9 +63,34 @@ export class UserService implements Service {
 		return this.repository.save(newUser);
 	};
 
-	findOne = async (id: number): Promise<User> => {
+	update = async (
+		id: number,
+		{ email, password, ...userData }: UserDto
+	): Promise<User> => {
+		const user = await this.findOne(id, selectUser);
+
+		if (email.toLowerCase() !== user.email.toLowerCase()) {
+			//TODO: send email confirmation
+			user.email = email;
+		}
+
+		if (!this.passwordUtils.compare(password, user.password)) {
+			//TODO: send email confirmation
+			user.password = this.passwordUtils.generate(password);
+		}
+
+		Object.assign(user, userData);
+
+		return await this.repository.save(user);
+	};
+
+	findOne = async (
+		id: number,
+		optionSelect?: FindOptionsSelect<User>
+	): Promise<User> => {
 		const user = await this.repository.findOne({
 			relations: { addresses: true },
+			select: optionSelect,
 			where: { id },
 		});
 
