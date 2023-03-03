@@ -20,7 +20,8 @@
       "@middleware/*": ["./middleware/*"],
       "@common/*": ["./common/*"],
       "@user/*": ["./user/*"],
-      "@address/*": ["./address/*"]
+      "@address/*": ["./address/*"],
+      "@auth/*": ["./auth/*"]
     }
   },
   "include": ["./**/*.ts"]
