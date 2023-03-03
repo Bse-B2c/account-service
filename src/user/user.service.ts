@@ -16,7 +16,7 @@ import {
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { SearchDto } from '@user/dtos/search.dto';
 
-const selectUser = {
+export const selectUser = {
 	id: true,
 	password: true,
 	email: true,
@@ -109,6 +109,10 @@ export class UserService implements Service {
 		await this.repository.delete(id);
 
 		return user;
+	};
+
+	findByEmail = (email: string): Promise<User | null> => {
+		return this.repository.findOne({ where: { email }, select: selectUser });
 	};
 
 	find = async (search: SearchDto): Promise<Array<User>> => {

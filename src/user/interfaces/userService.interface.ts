@@ -9,4 +9,5 @@ export interface UserService {
 	delete(id: number): Promise<User>;
 	update(id: number, userData: UserDto): Promise<User>;
 	find(search: SearchDto): Promise<Array<User>>;
+	findByEmail(email: string): Promise<User | null>;
 }
