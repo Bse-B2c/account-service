@@ -34,6 +34,6 @@ export class User {
 	})
 	addresses: Array<Address>;
 
-	@Column({ default: Role.CONSUMER })
-	role: number;
+	@Column({ default: [Role.CONSUMER], array: true, type: 'int' })
+	roles: Array<number>;
 }
