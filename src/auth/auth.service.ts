@@ -37,7 +37,7 @@ export class AuthService implements Service {
 			{ username: user.name, roles: user.roles },
 			process.env['SECRET'] ?? 'secret',
 			{
-				expiresIn: process.env['EXPIRE'],
+				expiresIn: process.env['EXPIRES'],
 			}
 		);
 
