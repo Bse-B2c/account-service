@@ -11,5 +11,10 @@ import { AuthRequestDto } from '@auth/dtos/authRequest.dto';
 const validateBody = validate('body');
 
 router.post('/signin', validateBody(AuthRequestDto), authController.signIn);
+router.post(
+	'/admin/signin',
+	validateBody(AuthRequestDto),
+	authController.signInAdmin
+);
 
 export default router;

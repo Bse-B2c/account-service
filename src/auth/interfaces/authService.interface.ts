@@ -1,4 +1,5 @@
 import { AuthRequestDto } from '@auth/dtos/authRequest.dto';
+import { Role } from '@common/enums/role.enum';
 
 export interface Token {
 	token: string;
@@ -6,5 +7,5 @@ export interface Token {
 }
 
 export interface AuthService {
-	signIn(request: AuthRequestDto): Promise<Token>;
+	signIn(request: AuthRequestDto, role?: Role): Promise<Token>;
 }

@@ -7,6 +7,7 @@ import { UserService } from '@user/interfaces/userService.interface';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { PasswordUtils } from '@common/utils/password.utils';
 import { sign } from 'jsonwebtoken';
+import { Role } from '@common/enums/role.enum';
 
 export class AuthService implements Service {
 	constructor(
@@ -14,8 +15,11 @@ export class AuthService implements Service {
 		private passwordUtils: PasswordUtils
 	) {}
 
-	signIn = async ({ email, password }: AuthRequestDto): Promise<Token> => {
-		const user = await this.userService.findByEmail(email);
+	signIn = async (
+		{ email, password }: AuthRequestDto,
+		role: Role
+	): Promise<Token> => {
+		const user = await this.userService.findByEmail(email, role);
 
 		if (!user)
 			throw new HttpException({

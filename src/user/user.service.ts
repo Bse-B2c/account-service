@@ -12,9 +12,11 @@ import {
 	MoreThanOrEqual,
 	LessThanOrEqual,
 	FindOptionsSelect,
+	ArrayContains,
 } from 'typeorm';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { SearchDto } from '@user/dtos/search.dto';
+import { Role } from '@common/enums/role.enum';
 
 export const selectUser = {
 	id: true,
@@ -111,8 +113,11 @@ export class UserService implements Service {
 		return user;
 	};
 
-	findByEmail = (email: string): Promise<User | null> => {
-		return this.repository.findOne({ where: { email }, select: selectUser });
+	findByEmail = (email: string, role?: Role): Promise<User | null> => {
+		return this.repository.findOne({
+			where: { email, roles: ArrayContains([role]) },
+			select: selectUser,
+		});
 	};
 
 	find = async (search: SearchDto): Promise<Array<User>> => {
