@@ -26,7 +26,7 @@ export const selectUser = {
 	addresses: true,
 	createdAt: true,
 	brithDate: true,
-	role: true,
+	roles: true,
 };
 
 export class UserService implements Service {

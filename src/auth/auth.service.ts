@@ -30,7 +30,7 @@ export class AuthService implements Service {
 			});
 
 		const token = sign(
-			{ username: user.name, role: user.role },
+			{ username: user.name, roles: user.roles },
 			process.env['SECRET'] ?? 'secret',
 			{
 				expiresIn: process.env['EXPIRE'],
