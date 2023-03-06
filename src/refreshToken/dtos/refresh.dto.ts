@@ -1,6 +1,7 @@
-import { IsNumber } from 'class-validator';
+import { IsString, IsUUID } from 'class-validator';
 
 export class RefreshDto {
-	@IsNumber()
-	refreshToken: number;
+	@IsString()
+	@IsUUID(4)
+	refreshToken: string;
 }
