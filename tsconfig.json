@@ -21,7 +21,8 @@
       "@common/*": ["./common/*"],
       "@user/*": ["./user/*"],
       "@address/*": ["./address/*"],
-      "@auth/*": ["./auth/*"]
+      "@auth/*": ["./auth/*"],
+      "@refreshToken/*": ["./refreshToken/*"]
     }
   },
   "include": ["./**/*.ts"]

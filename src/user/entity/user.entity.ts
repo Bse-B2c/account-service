@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Address } from '@address/entity/address.entity';
 import { Role } from '@common/enums/role.enum';
+import { RefreshToken } from '@src/refreshToken/entity/refreshToken.entity';
 
 @Entity()
 export class User {
@@ -36,4 +37,7 @@ export class User {
 
 	@Column({ default: [Role.CONSUMER], array: true, type: 'int' })
 	roles: Array<number>;
+
+	@OneToMany(() => RefreshToken, refreshToken => refreshToken.user)
+	refreshToken: Array<RefreshToken>;
 }
