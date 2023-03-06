@@ -6,6 +6,7 @@ import {
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '@user/entity/user.entity';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity()
 export class RefreshToken {
@@ -14,6 +15,9 @@ export class RefreshToken {
 
 	@Column()
 	expiresIn: number;
+
+	@Column({ default: uuidv4() })
+	key: string;
 
 	@ManyToOne(() => User, user => user.refreshToken, {
 		onDelete: 'CASCADE',
