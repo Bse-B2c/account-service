@@ -68,7 +68,7 @@ export class RefreshTokenService implements Service {
 		};
 
 		const token = this.generateToken(payload, {
-			secret: process.env['REFRESH_TOKEN_SECRET'] ?? 'secret',
+			secret: process.env['SECRET'] ?? 'secret',
 			expiresIn,
 		});
 
