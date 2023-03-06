@@ -9,7 +9,7 @@ export type RefreshTokenInfo = Omit<RefreshToken, 'user'>;
 export interface RefreshTokenService {
 	create(user: User): Promise<RefreshTokenInfo>;
 	generateToken(payload: any, option: option): string;
-	handle(id: number): Promise<Token>;
+	handle(key: string): Promise<Token>;
 	isExpiredToken(expiresIn: number): boolean;
 	deleteMany(userId: number): Promise<Array<RefreshToken>>;
 }

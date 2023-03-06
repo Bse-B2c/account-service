@@ -38,16 +38,17 @@ export class RefreshTokenService implements Service {
 			id: newRefreshToken.id,
 			expiresIn,
 			userId: newRefreshToken.userId,
+			key: newRefreshToken.key,
 		};
 	};
 
 	isExpiredToken = (expiresIn: number) =>
 		dayjs().isAfter(dayjs.unix(expiresIn));
 
-	handle = async (id: number): Promise<Token> => {
+	handle = async (key: string): Promise<Token> => {
 		const refreshToken = await this.repository.findOne({
 			relations: { user: true },
-			where: { id },
+			where: { key },
 		});
 
 		if (!refreshToken)
