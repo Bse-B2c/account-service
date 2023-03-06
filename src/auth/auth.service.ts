@@ -1,17 +1,16 @@
-import {
-	AuthService as Service,
-	Token,
-} from '@auth/interfaces/authService.interface';
+import { AuthService as Service } from '@auth/interfaces/authService.interface';
 import { AuthRequestDto } from '@auth/dtos/authRequest.dto';
 import { UserService } from '@user/interfaces/userService.interface';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { PasswordUtils } from '@common/utils/password.utils';
-import { sign } from 'jsonwebtoken';
 import { Role } from '@common/enums/role.enum';
+import { RefreshTokenService } from '@src/refreshToken/interfaces/refreshTokenService';
+import { Token } from '@common/interfaces/token';
 
 export class AuthService implements Service {
 	constructor(
 		private userService: UserService,
+		private refreshTokenService: RefreshTokenService,
 		private passwordUtils: PasswordUtils
 	) {}
 
@@ -33,14 +32,18 @@ export class AuthService implements Service {
 				message: 'E-mail or password incorrect',
 			});
 
-		const token = sign(
+		const token = this.refreshTokenService.generateToken(
 			{ username: user.name, roles: user.roles },
-			process.env['SECRET'] ?? 'secret',
 			{
-				expiresIn: process.env['EXPIRES'],
+				secret: process.env['SECRET'] ?? 'secret',
+				expiresIn: process.env['EXPIRES'] as string,
 			}
 		);
 
-		return { token, refreshToken: '' };
+		await this.refreshTokenService.deleteMany(user.id);
+
+		const refreshToken = await this.refreshTokenService.create(user);
+
+		return { token, refreshToken };
 	};
 }
