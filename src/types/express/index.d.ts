@@ -3,7 +3,7 @@ import express from 'express';
 declare global {
 	namespace Express {
 		interface Request {
-			user?: { name: string; roles: Array<number> };
+			user?: { id: number; name: string; roles: Array<number> };
 		}
 	}
 }

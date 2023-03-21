@@ -65,6 +65,7 @@ export class RefreshTokenService implements Service {
 		const payload = {
 			name,
 			roles,
+			id: userId,
 		};
 
 		const token = this.generateToken(payload, {

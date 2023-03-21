@@ -33,7 +33,7 @@ export class AuthService implements Service {
 			});
 
 		const token = this.refreshTokenService.generateToken(
-			{ username: user.name, roles: user.roles },
+			{ username: user.name, id: user.id, roles: user.roles },
 			{
 				secret: process.env['SECRET'] ?? 'secret',
 				expiresIn: process.env['EXPIRES'] as string,

@@ -45,7 +45,8 @@ export const ensureAuthenticated = (
 					message: 'Token invalid',
 				});
 
-			if (decoded) req.user = { name: decoded.name, roles: decoded.roles };
+			if (decoded)
+				req.user = { name: decoded.name, roles: decoded.roles, id: decoded.id };
 		});
 
 		next();
