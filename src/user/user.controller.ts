@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { HttpStatusCode } from '@bse-b2c/common';
+import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { UserService } from '@user/interfaces/userService.interface';
 import { UserDto } from '@user/dtos/user.dto';
 import { SearchDto } from '@user/dtos/search.dto';
@@ -78,6 +78,28 @@ export class UserController {
 				cpf,
 				brithDate,
 			});
+
+			return res.status(HttpStatusCode.OK).send({
+				statusCode: HttpStatusCode.OK,
+				error: null,
+				data: response,
+			});
+		} catch (e) {
+			next(e);
+		}
+	};
+
+	me = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const id = req.user?.id;
+
+			if (!id)
+				throw new HttpException({
+					statusCode: HttpStatusCode.UNAUTHORIZED,
+					message: 'Token invalid',
+				});
+
+			const response = await this.service.findOne(+id);
 
 			return res.status(HttpStatusCode.OK).send({
 				statusCode: HttpStatusCode.OK,

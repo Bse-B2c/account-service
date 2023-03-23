@@ -31,6 +31,12 @@ router.get(
 	userController.find
 );
 router.get(
+	'/me',
+	ensureAuthenticated,
+	verifyRoles([Role.ADMIN, Role.CONSUMER]),
+	userController.me
+);
+router.get(
 	'/:id',
 	ensureAuthenticated,
 	verifyRoles([Role.ADMIN, Role.CONSUMER]),
