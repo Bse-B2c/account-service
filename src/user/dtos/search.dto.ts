@@ -28,12 +28,18 @@ export class SearchDto extends BaseSearchFilter {
 	@IsString()
 	cpf: string;
 
-	@IsISO8601()
+	@Transform(({ value }) =>
+		['undefined', 'null'].includes(value) ? undefined : value
+	)
 	@IsOptional()
+	@IsISO8601()
 	startDate: string;
 
-	@IsISO8601()
 	@IsOptional()
+	@IsISO8601()
+	@Transform(({ value }) =>
+		['undefined', 'null'].includes(value) ? undefined : value
+	)
 	endDate: string;
 
 	@IsString()
