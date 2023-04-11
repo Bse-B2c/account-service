@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { HttpException, HttpStatusCode } from '@bse-b2c/common';
 import { UserService } from '@user/interfaces/userService.interface';
-import { UserDto } from '@user/dtos/user.dto';
+import { CreateUserDto } from '@user/dtos/user.dto';
 import { SearchDto } from '@user/dtos/search.dto';
 
 export class UserController {
@@ -10,7 +10,7 @@ export class UserController {
 	create = async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const { name, email, password, phone, cpf, brithDate } =
-				req.body as UserDto;
+				req.body as CreateUserDto;
 
 			const response = await this.service.create({
 				name,
@@ -66,14 +66,13 @@ export class UserController {
 	update = async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const {
-				body: { name, email, password, phone, cpf, brithDate },
+				body: { name, email, phone, cpf, brithDate },
 				params: { id },
 			} = req;
 
 			const response = await this.service.update(+id, {
 				name,
 				email,
-				password,
 				phone,
 				cpf,
 				brithDate,

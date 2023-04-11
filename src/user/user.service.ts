@@ -1,6 +1,6 @@
 import { UserService as Service } from '@user/interfaces/userService.interface';
 import { PasswordUtils } from '@common/utils/password.utils';
-import { UserDto } from '@user/dtos/user.dto';
+import { CreateUserDto, UserDto } from '@user/dtos/user.dto';
 import { User } from '@user/entity/user.entity';
 import {
 	Equal,
@@ -44,7 +44,7 @@ export class UserService implements Service {
 		brithDate,
 		cpf,
 		phone,
-	}: UserDto): Promise<User> => {
+	}: CreateUserDto): Promise<User> => {
 		const user = await this.repository.findOne({ where: { email } });
 
 		if (user)
@@ -67,18 +67,13 @@ export class UserService implements Service {
 
 	update = async (
 		id: number,
-		{ email, password, ...userData }: UserDto
+		{ email, ...userData }: UserDto
 	): Promise<User> => {
 		const user = await this.findOne(id, selectUser);
 
 		if (email.toLowerCase() !== user.email.toLowerCase()) {
 			//TODO: send email confirmation
 			user.email = email;
-		}
-
-		if (!this.passwordUtils.compare(password, user.password)) {
-			//TODO: send email confirmation
-			user.password = this.passwordUtils.generate(password);
 		}
 
 		Object.assign(user, userData);

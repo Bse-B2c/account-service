@@ -15,10 +15,6 @@ export class UserDto {
 	@IsEmail()
 	email: string;
 
-	@IsNotEmpty()
-	@IsString()
-	password: string;
-
 	@IsPhoneNumber('BR')
 	@IsNotEmpty()
 	phone: string;
@@ -30,4 +26,10 @@ export class UserDto {
 	@IsString()
 	@IsISO8601()
 	brithDate: string;
+}
+
+export class CreateUserDto extends UserDto {
+	@IsNotEmpty()
+	@IsString()
+	password: string;
 }
