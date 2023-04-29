@@ -63,6 +63,32 @@ export class UserController {
 		}
 	};
 
+	updateMe = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const {
+				body: { name, email, phone, cpf, brithDate },
+				user,
+			} = req;
+			const id = user ? user.id : -1;
+
+			const response = await this.service.update(id, {
+				name,
+				email,
+				phone,
+				cpf,
+				brithDate,
+			});
+
+			return res.status(HttpStatusCode.OK).send({
+				statusCode: HttpStatusCode.OK,
+				error: null,
+				data: response,
+			});
+		} catch (e) {
+			next(e);
+		}
+	};
+
 	update = async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const {

@@ -20,7 +20,6 @@ import { Role } from '@common/enums/role.enum';
 
 export const selectUser = {
 	id: true,
-	password: true,
 	email: true,
 	name: true,
 	cpf: true,

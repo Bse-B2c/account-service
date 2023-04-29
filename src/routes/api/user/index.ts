@@ -36,6 +36,13 @@ router.get(
 	verifyRoles([Role.ADMIN, Role.CONSUMER]),
 	userController.me
 );
+router.patch(
+	'/me',
+	ensureAuthenticated,
+	verifyRoles([Role.CONSUMER, Role.ADMIN]),
+	validateBody(UserDto),
+	userController.updateMe
+);
 router.get(
 	'/:id',
 	ensureAuthenticated,
