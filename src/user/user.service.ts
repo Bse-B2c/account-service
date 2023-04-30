@@ -110,7 +110,7 @@ export class UserService implements Service {
 	findByEmail = (email: string, role?: Role): Promise<User | null> => {
 		return this.repository.findOne({
 			where: { email, roles: ArrayContains([role]) },
-			select: selectUser,
+			select: { ...selectUser, password: true },
 		});
 	};
 
