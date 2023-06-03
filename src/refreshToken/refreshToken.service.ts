@@ -10,6 +10,7 @@ import { User } from '@user/entity/user.entity';
 import { Repository } from 'typeorm';
 import { Token } from '@common/interfaces/token';
 import dayjs, { ManipulateType } from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 
 export class RefreshTokenService implements Service {
 	constructor(private repository: Repository<RefreshToken>) {}
@@ -28,7 +29,9 @@ export class RefreshTokenService implements Service {
 			.unix();
 
 		const newRefreshToken = await this.repository.create({
+			key: uuidv4(),
 			expiresIn,
+			createdAt: new Date(dayjs().toISOString()),
 			user,
 		});
 
@@ -37,6 +40,7 @@ export class RefreshTokenService implements Service {
 		return {
 			id: newRefreshToken.id,
 			expiresIn,
+			createdAt: newRefreshToken.createdAt,
 			userId: newRefreshToken.userId,
 			key: newRefreshToken.key,
 		};
@@ -60,6 +64,7 @@ export class RefreshTokenService implements Service {
 		const {
 			user: { id: userId, name, roles },
 			expiresIn,
+			createdAt,
 		} = refreshToken;
 
 		const payload = {
@@ -70,7 +75,9 @@ export class RefreshTokenService implements Service {
 
 		const token = this.generateToken(payload, {
 			secret: process.env['SECRET'] ?? 'secret',
-			expiresIn,
+			expiresIn: dayjs
+				.unix(expiresIn)
+				.diff(dayjs(createdAt.toISOString()), 'second'),
 		});
 
 		if (this.isExpiredToken(expiresIn)) {
