@@ -1,0 +1,35 @@
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+
+export class UpdateAddressDto {
+	@IsNotEmpty()
+	@IsString()
+	zipCode: string;
+
+	@IsNotEmpty()
+	@IsString()
+	streetName: string;
+
+	@IsNotEmpty()
+	@IsNumber()
+	houseNumber: number;
+
+	@IsNotEmpty()
+	@IsString()
+	apartment: string;
+
+	@IsNotEmpty()
+	@IsString()
+	city: string;
+
+	@IsNotEmpty()
+	@IsString()
+	region: string;
+
+	@IsNotEmpty()
+	@IsString()
+	country: string;
+
+	@IsNotEmpty()
+	@IsBoolean()
+	active: boolean;
+}
